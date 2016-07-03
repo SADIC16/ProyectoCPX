@@ -62,7 +62,7 @@ public class ServiciosSATG6 {
      */
     @WebMethod(operationName = "CalcularManifesto")
     public MasterClass CalcularManifesto(@WebParam(name = "entrada") MasterClass entrada) {
-        Double total = 0.0;
+        double total = 0.0;
         java.util.Date dt = new java.util.Date();
         DBConexion db = new DBConexion();
         Connection con = db.conectar();
@@ -97,17 +97,20 @@ public class ServiciosSATG6 {
                 java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String currentTime = sdf.format(dt);
                 consultas.Execute("insert into paquete (id_formulario,fecha,monto,categoria) values ("+n_f+",'"+currentTime+"',"+item.precio+",'"+item.Descripcion+"');");                
-                log.info("CALCULAR MANIFESTO - De item "+item.Descripcion+" valor "+valor+" impuesto "+prev+", insertado con exito");
+                log.info("CALCULAR MANIFESTO - De item "+item.Descripcion+" valor "+valor+" impuesto sin iva "+prev+", insertado con exito");
             }
             
 
             salida = new MasterClass();
 
             salida.setNumeroFormulario(n_f + 1);
+            log.info("CALCULAR MANIFESTO - Se retorno total sin IVA "+total);
+            total=total+total*(0.12);            
+            log.info("CALCULAR MANIFESTO - Se retorno total con IVA"+total);
             salida.setMonto((double) total);
             salida.setDetalleItem(entrada.getDetalleItem());
             log.info("CALCULAR MANIFESTO - Se retorno el formulario "+n_f);
-            log.info("CALCULAR MANIFESTO - Se retorno total "+total);
+            
             //insertar el siguiente formulario
             if (consultas.Execute("insert into formulario(tipo,monto,estado)values('arancel'," + total + ",0);")) {
                 System.out.println("exitoso introduccion de formulario");
@@ -172,7 +175,39 @@ public class ServiciosSATG6 {
             return result;
         } catch (Exception ex) {
             System.out.println(ex.toString());
-        }
+        }        
         return false;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "obtenerPaquetesRecibidos")
+    public String obtenerPaquetesRecibidos(@WebParam(name = "cuantas") int cuantas) {
+        //TODO write your implementation code here:
+        DBConexion db = new DBConexion();
+        Connection con = db.conectar();
+        Consultas consultas = new Consultas(con);
+        String salida="";
+        try {
+            log.info("OBTENERPAQUETESRECIBIDOS - Se solicito la lista de paquetes consultados");
+            ResultSet rs = consultas.ExecuteQuery("select * from paquete;");
+            int i=0,j=1;
+            while (rs.next()) {
+                if(i==0){
+                    salida+="<tr class=\"info hidden\" id=\"tr_"+j+"\" ><td>"+rs.getInt("id_paquete")+"</td><td>"+rs.getDate("fecha")+"</td><td>"+rs.getDouble("monto")+"</td><td>"+rs.getString("categoria")+"</td></tr>\n";
+                    i=1;
+                }else{
+                    salida+="<tr class=\"warning hidden\" id=\"tr_"+j+"\" ><td>"+rs.getInt("id_paquete")+"</td><td>"+rs.getDate("fecha")+"</td><td>"+rs.getDouble("monto")+"</td><td>"+rs.getString("categoria")+"</td></tr>\n";
+                    i=0;
+                }                                
+                j++;
+            }
+            rs.close();            
+            con.close();            
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
+        return salida;
     }
 }
