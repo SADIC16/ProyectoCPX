@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.3 (tags/2.3-7528; 2013-04-29T19:34:10+0000) JAXWS-RI/2.2.8 JAXWS/2.2 svn-revision#unknown. --><xs:schema xmlns:tns="http://servicios/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://servicios/">
+
+<xs:element name="CalcularManifesto" type="tns:CalcularManifesto"/>
+
+<xs:element name="CalcularManifestoResponse" type="tns:CalcularManifestoResponse"/>
+
+<xs:element name="CambiarEstadoFormulario" type="tns:CambiarEstadoFormulario"/>
+
+<xs:element name="CambiarEstadoFormularioResponse" type="tns:CambiarEstadoFormularioResponse"/>
+
+<xs:element name="ObtenerArancelIndividual" type="tns:ObtenerArancelIndividual"/>
+
+<xs:element name="ObtenerArancelIndividualResponse" type="tns:ObtenerArancelIndividualResponse"/>
+
+<xs:element name="ObtenerEstadoFormulario" type="tns:ObtenerEstadoFormulario"/>
+
+<xs:element name="ObtenerEstadoFormularioResponse" type="tns:ObtenerEstadoFormularioResponse"/>
+
+<xs:element name="obtenerPaquetesRecibidos" type="tns:obtenerPaquetesRecibidos"/>
+
+<xs:element name="obtenerPaquetesRecibidosResponse" type="tns:obtenerPaquetesRecibidosResponse"/>
+
+<xs:complexType name="obtenerPaquetesRecibidos">
+<xs:sequence>
+<xs:element name="cuantas" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenerPaquetesRecibidosResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ObtenerArancelIndividual">
+<xs:sequence>
+<xs:element name="entrada" type="tns:masterClass" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="masterClass">
+<xs:sequence>
+<xs:element name="categoria" type="xs:int"/>
+<xs:element name="descripcion" type="xs:string" minOccurs="0"/>
+<xs:element name="detalleItem" type="tns:item" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="direccion" type="xs:string" minOccurs="0"/>
+<xs:element name="estado" type="xs:int"/>
+<xs:element name="HTMLPDF" type="xs:string" minOccurs="0"/>
+<xs:element name="monto" type="xs:double"/>
+<xs:element name="nit" type="xs:string" minOccurs="0"/>
+<xs:element name="nombre" type="xs:string" minOccurs="0"/>
+<xs:element name="numeroCuentaAcreditar" type="xs:int"/>
+<xs:element name="numeroCuentaDebitar" type="xs:int"/>
+<xs:element name="numeroFormulario" type="xs:int"/>
+<xs:element name="numeroTarjetaDebitar" type="xs:int"/>
+<xs:element name="porcentajeArancelario" type="xs:double"/>
+<xs:element name="tipoPago" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="item">
+<xs:sequence>
+<xs:element name="NumeroTracking" type="xs:int"/>
+<xs:element name="Cantidad" type="xs:int"/>
+<xs:element name="Categoria" type="xs:int"/>
+<xs:element name="Peso" type="xs:double"/>
+<xs:element name="precio" type="xs:double"/>
+<xs:element name="Descripcion" type="xs:string" minOccurs="0"/>
+<xs:element name="PorcentajeArancel" type="xs:double"/>
+<xs:element name="CodigoUsuario" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ObtenerArancelIndividualResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:masterClass" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ObtenerEstadoFormulario">
+<xs:sequence>
+<xs:element name="entrada" type="tns:masterClass" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ObtenerEstadoFormularioResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:masterClass" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="CambiarEstadoFormulario">
+<xs:sequence>
+<xs:element name="entrada" type="tns:masterClass" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="CambiarEstadoFormularioResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="CalcularManifesto">
+<xs:sequence>
+<xs:element name="entrada" type="tns:masterClass" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="CalcularManifestoResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:masterClass" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
