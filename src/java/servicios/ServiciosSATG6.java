@@ -96,7 +96,7 @@ public class ServiciosSATG6 {
                 
                 java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String currentTime = sdf.format(dt);
-                consultas.Execute("insert into paquete (id_formulario,fecha,monto,categoria) values ("+n_f+",'"+currentTime+"',"+item.precio+",'"+item.Descripcion+"');");                
+                consultas.Execute("insert into paquete (id_formulario,fecha,monto,categoria,cantidad) values ("+n_f+",'"+currentTime+"',"+item.precio+",'"+item.Descripcion+"',"+item.Cantidad+");");                
                 log.info("CALCULAR MANIFESTO - De item "+item.Descripcion+" valor "+valor+" impuesto sin iva "+prev+", insertado con exito");
             }
             
@@ -195,10 +195,10 @@ public class ServiciosSATG6 {
             int i=0,j=1;
             while (rs.next()) {
                 if(i==0){
-                    salida+="<tr class=\"info hidden\" id=\"tr_"+j+"\" ><td>"+rs.getInt("id_paquete")+"</td><td>"+rs.getDate("fecha")+"</td><td>"+rs.getDouble("monto")+"</td><td>"+rs.getString("categoria")+"</td></tr>\n";
+                    salida+="<tr class=\"info hidden\" id=\"tr_"+j+"\" ><td>"+rs.getInt("id_paquete")+"</td><td>"+rs.getDate("fecha")+"</td><td>"+rs.getDouble("monto")+"</td><td>"+rs.getString("categoria")+"</td><td>"+rs.getString("cantidad")+"</td></tr>\n";
                     i=1;
                 }else{
-                    salida+="<tr class=\"warning hidden\" id=\"tr_"+j+"\" ><td>"+rs.getInt("id_paquete")+"</td><td>"+rs.getDate("fecha")+"</td><td>"+rs.getDouble("monto")+"</td><td>"+rs.getString("categoria")+"</td></tr>\n";
+                    salida+="<tr class=\"warning hidden\" id=\"tr_"+j+"\" ><td>"+rs.getInt("id_paquete")+"</td><td>"+rs.getDate("fecha")+"</td><td>"+rs.getDouble("monto")+"</td><td>"+rs.getString("categoria")+"</td><td>"+rs.getString("cantidad")+"</td></tr>\n";
                     i=0;
                 }                                
                 j++;
