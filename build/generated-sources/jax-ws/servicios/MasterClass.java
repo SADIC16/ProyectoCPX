@@ -373,7 +373,7 @@ public class MasterClass {
         this.tipoPago = value;
     }
 
-    public void setDetalleItem(ArrayList<Item> arrayList) {
+   public void setDetalleItem(ArrayList<Item> arrayList) {
         this.detalleItem=arrayList;
     }
 

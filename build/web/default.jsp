@@ -1,3 +1,11 @@
+
+<%@page import="logica.DBConexion" %>
+<%@page import="logica.Consultas" %>
+<%@page import="java.sql.ResultSet"%>
+<%@page import=" java.io.IOException"%>
+<%@page import ="java.sql.Connection"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -38,7 +46,7 @@
 
 
                 <div class='container titles yomer-text-center'>
-                    <h1 data-scroll-reveal="wait 0.25s, then enter top and move 40px over 1s">Drive Lorum ipsum that Matter</h1>
+                    <h1 data-scroll-reveal="wait 0.25s, then enter top and move 40px over 1s">SAT</h1>
                     <div class='subhead'>                        
                         <%
                         if (request.getParameter("salida") != null) {
@@ -54,7 +62,7 @@
                             out.write(salida);
                         }                          
                         %>
-                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. . Sign up, it's <b>free</b>!</p> 
+                        <p>Proyecto Software Avanzado<b> Entidad SAT</b>!</p> 
                         <div class='buttons'>
                             <form method="POST" action="#">
                                 <button class="form-submit googleplus" type="submit" title="Continue with Google+"></button>
@@ -99,7 +107,7 @@
                         <div class="col-md-12 yomer-text-center">
                             <h3>Paquetes recibidos</h3> 
                             <table class="table">
-                                <thead><tr class="success" ><th>No.</th><th>Fecha</th><th>Monto</th><th>Categoria</th></tr></thead>
+                                <thead><tr class="success" ><th>No.</th><th>Fecha</th><th>Monto</th><th>Categoria</th><th>Cantidad</th></tr></thead>
                                 <tbody>
                                 <%-- start web service invocation --%><hr/>
                                 <%
@@ -125,11 +133,31 @@
                                 </tbody>
                             </table>                                
                             <ul class="pagination">
-                                <li onclick="ShowHide(1)"><a href="#Nogo">1</a></li>
-                                <li ><a href="#Nogo" onclick="ShowHide(2)">2</a></li>
-                                <li onclick="ShowHide(3)"><a href="#Nogo">3</a></li>
-                                <li onclick="ShowHide(4)"> <a href="#Nogo">4</a></li>
-                                <li onclick="ShowHide(5)"><a href="#Nogo">5</a></li>
+                                <%                                    
+                                    try {                                        
+                                        DBConexion db = new DBConexion();
+                                        Connection con = db.conectar();
+                                        Consultas consultas = new Consultas(con);                                    
+                                        int cantidad=0;
+                                        ResultSet rs = consultas.ExecuteQuery("select count(*) as cantidad from paquete;");
+                                        while (rs.next()) {                                                                                            
+                                            cantidad=rs.getInt("cantidad");
+                                            break;
+                                        }
+                                        rs.close();
+                                        con.close();
+                                        int limit=cantidad/10;
+                                        int residuo=cantidad%10;
+                                        if(residuo!=0) limit++;
+                                        System.out.println(limit);
+                                        for(int i=0;i<limit;i++){
+                                            out.write("<li onclick=\"ShowHide("+(i+1)+")\"><a href=\"#Nogo\">"+(i+1)+"</a></li>");
+                                        }
+                                    } catch (Exception ex) {
+                                        System.out.println(ex.toString());
+                                    }
+                                    
+                                %>                                                                
                             </ul>
                         </div>
                     </div>
